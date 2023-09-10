@@ -11,14 +11,15 @@
 #  * - lagarto > papel, papel > spock, spock > piedra, spock > tijera, tijera > lagarto.
 #  */
 
-who_win = { "🗿" : ["✂️","🦎",],
+
+
+def paper_scissors_etc(seq:[]):
+    who_win = { "🗿" : ["✂️","🦎",],
             "✂️" : ["🦎","📄",],
             "🦎" : ["📄","🖖"],
             "🖖" : ["✂️","🗿"],
             "📄" : ["🗿","🖖"]
-}
-
-def paper_scissors_etc(seq:[]):
+    }
     p1 = 0
     p2 = 0
     for actual_round in seq:
@@ -30,7 +31,6 @@ def paper_scissors_etc(seq:[]):
         print('tie')
     else:
         print(f'Player { "1" if (p1 > p2)  else "2"} wins')
-
 
 paper_scissors_etc([("🗿","✂️"), ("✂️","🗿"), ("📄","✂️")])
 paper_scissors_etc([("🗿","🦎"), ("✂️","🖖"), ("📄","✂️")])
