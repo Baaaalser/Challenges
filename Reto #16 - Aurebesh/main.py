@@ -33,8 +33,56 @@ def aurebesh_translator(word):
         translated += aurebesh_dict.get(letter)
     return translated
 
+def back_from_aurebesh(word):
+    word = list(word.lower())
+    translated = ''
+    skip = 0
+    search_for = ''
+    #tamaños aubesh = 5(aurek,cresh,jenth,krill,senth,trill,thesh,zerek,senth),
+    # 4(besh,dorn,enth,onit,forn,grek,herf,leth,mern,nern,peth,resh,shen,wesk,xesh,yirt),
+    # 6(cherek,krenth,orenth),
+    # 3(esk,isk,nen,osk,gek,usk,vev)
+    for index,letter in enumerate(word):
+        if(skip > 0):
+            skip -= 1
+            continue
+        skip = 0
+        if(index+2 < len(word)):
+            search_for = word[index]+word[index+1]+word[index+2]
+            if (search_for in ('esk','isk','nen','osk','gek','usk','vev')):
+                skip = 2
+                translated += list(aurebesh_dict.keys())[list(aurebesh_dict.values()).index(search_for)]
+                continue
+        if(index+3 < len(word)):
+            search_for += word[index+3]
+            if (search_for in ('besh','dorn','enth','onit','forn','grek','herf','leth','mern','nern','peth','resh','shen','wesk','xesh','yirt')):
+                skip = 3
+                translated += list(aurebesh_dict.keys())[list(aurebesh_dict.values()).index(search_for)]
+                continue
+        if(index+4 < len(word)):
+            search_for += word[index+4]
+            if (search_for in ('aurek','cresh','jenth','krill','senth','trill','thesh','zerek','senth')):
+                skip = 4
+                translated += list(aurebesh_dict.keys())[list(aurebesh_dict.values()).index(search_for)]
+                continue
+        if(index+5 < len(word)):
+            search_for += word[index+5]
+            if ( search_for in ('cherek','krenth','orenth')):
+                skip = 5
+                translated += list(aurebesh_dict.keys())[list(aurebesh_dict.values()).index(search_for)]
+                continue
+        #espacio
+        translated += letter
+    return translated
+
 print(aurebesh_translator('gato'))
 print(aurebesh_translator('choo choo'))
 print(aurebesh_translator('khantal'))
 print(aurebesh_translator('energy'))
 print(aurebesh_translator('renault kangoo'))
+
+print(back_from_aurebesh(aurebesh_translator('gato')))
+print(back_from_aurebesh(aurebesh_translator('choo choo')))
+print(back_from_aurebesh(aurebesh_translator('khantal')))
+print(back_from_aurebesh(aurebesh_translator('energy')))
+print(back_from_aurebesh(aurebesh_translator('renault kangoo')))
