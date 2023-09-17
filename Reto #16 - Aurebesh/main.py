@@ -48,6 +48,8 @@ def back_from_aurebesh(word):
             continue
         skip = 0
         if(index+2 < len(word)):
+            #se podia con join tambien
+            # "".join(word[index:3])
             search_for = word[index]+word[index+1]+word[index+2]
             if (search_for in ('esk','isk','nen','osk','gek','usk','vev')):
                 skip = 2
