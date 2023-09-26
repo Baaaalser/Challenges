@@ -30,7 +30,7 @@ def analyze_text(text :str):
     words_length = 0
     counter = 0
     another_word = []
-    for index,word in enumerate(words):
+    for word in words:
         if(word != ''):
             another_word.append(word)
         else:
