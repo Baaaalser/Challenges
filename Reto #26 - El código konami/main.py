@@ -19,6 +19,7 @@ def sequence(e):
             counter=0
             in_seq= False
     else:
+        print('Falló!!!!')
         counter = 0
         in_seq = False
     
