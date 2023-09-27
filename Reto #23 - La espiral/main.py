@@ -26,13 +26,13 @@ def draw_spiral(size):
         spiral = ""
         horizontal = row == 0
         for col in range(0, size):
-            if row + col == size - 1:
-                spiral += "╗" if col >= row else "╚"
-                horizontal = col < row
-            elif row - col == 1 and row < (size / 2):
+            if row + col == size - 1:#diagonal
+                spiral += "╗" if col >= row else "╚" #si col >= a row es lado sup derecho, sino inf izq
+                horizontal = col < row #no llegué a la diagonal en caso de ser lado sup
+            elif row - col == 1 and row < (size / 2):# si voy por la diagonal sup izq
                 spiral += "╔"
                 horizontal = True
-            elif row == col and row >= (size / 2):
+            elif row == col and row >= (size / 2):#diagonal inf derecha
                 spiral += "╝"
                 horizontal = False
             else: 
