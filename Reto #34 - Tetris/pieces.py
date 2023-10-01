@@ -1,3 +1,4 @@
+"""Here will be the piece template, with every piece, and the posible rotations"""
 from abc import ABC,abstractmethod
 from enum import Enum
 class rotation(Enum):

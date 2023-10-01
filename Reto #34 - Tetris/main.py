@@ -21,11 +21,13 @@
  * - Debes tener en cuenta los límites de la pantalla de juego.
  */"""
 
-from board import board
+"""the main idea to solve this is to make a functional game with all the pieces and the posibility to play in real time"""
+from board import board 
 from pieces import left_L
-import time
+import time #the board will be updated and move down the actual piece every second
+import keyboard #for key strokes capture
 
-tablero = board(10)
-L_izq = left_L()
+tablero = board(10) #create new board
+L_izq = left_L() #for test purposes, the pieces will be created randomly
 tablero.get_board()
 print(L_izq.get_name())
