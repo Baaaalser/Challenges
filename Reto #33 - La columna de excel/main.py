@@ -10,7 +10,7 @@ def column_calculator(column_name : str)-> int:
     column_name = ''.join(re.findall(r"[a-zA-Zgm]",column_name))
     num_value = 0
     for index,letter in enumerate(column_name[::-1]):
-        num_value += (ord(letter.upper())-64) * pow(26,index)
+        num_value += (ord(letter.upper())-64) * pow(26,index)#convierto valor a su ordinal, y lo multiplico x 26^posicion
     print((num_value))
 
 column_calculator('A')
