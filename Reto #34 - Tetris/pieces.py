@@ -7,7 +7,7 @@ class Direction(Enum):
 
     LEFT = 0
     RIGHT = 1
-    DOWN = 1
+    DOWN = 2
 
 class Piece(ABC):
     @abstractmethod
@@ -62,7 +62,10 @@ class Left_L(Piece):
 
     
     def move(self,my_board:Board,wich_direction:Direction):
-        coords = self.__get__board_piece_lower_corner_coord(self)
+        print(wich_direction)
+        
+        coords = self.__get__board_piece_lower_corner_coord()
+        print(coords)
         if wich_direction == Direction.DOWN:
             my_board.board = my_board.board[-1:] + my_board.board[:-1]
             if coords == [0,0]:#if piece is entering the board add the next part of the piece
@@ -75,14 +78,20 @@ class Left_L(Piece):
                 my_board.board[0][1] = self.data[0][1]
                 my_board.board[0][2] = self.data[0][2]
                 self.__set__board_piece_lower_corner_coord([2,0])
-
-            my_board.get_board()
+        elif wich_direction == Direction.RIGHT:
+            print('entro')
+            for index,row in enumerate(my_board.board):
+                print(row)
+                my_board.board[index] = row[-1:] + row[:-1]
+                self.__set__board_piece_lower_corner_coord([coords[0],(coords[1]+1)%my_board.size])
+                print(self.__get__board_piece_lower_corner_coord())
+        my_board.get_board()
 
     #this function can only be able to work if the piece is on the board
     def __set__board_piece_lower_corner_coord(self,coords:[]):
         self.__board_piece_lower_corner_coord = coords
 
-    def __get__board_piece_lower_corner_coord(self,coords:[]):
+    def __get__board_piece_lower_corner_coord(self):
             return self.__board_piece_lower_corner_coord 
     
     #if the piece is created must be added to the board
