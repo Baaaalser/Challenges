@@ -72,18 +72,25 @@ class Left_L(Piece):
                 my_board.board[0][0] = self.data[1][0]
                 my_board.board[0][1] = self.data[1][1]
                 my_board.board[0][2] = self.data[1][2]
-                self.__set__board_piece_lower_corner_coord([1,0])
+                self.__set__board_piece_lower_corner_coord([coords[0]+1,0])
             elif coords == [1,0]:
                 my_board.board[0][0] = self.data[0][0]
                 my_board.board[0][1] = self.data[0][1]
                 my_board.board[0][2] = self.data[0][2]
-                self.__set__board_piece_lower_corner_coord([2,0])
+                self.__set__board_piece_lower_corner_coord([coords[0]+1,0])
         elif wich_direction == Direction.RIGHT:
             print('entro')
             for index,row in enumerate(my_board.board):
                 print(row)
                 my_board.board[index] = row[-1:] + row[:-1]
                 self.__set__board_piece_lower_corner_coord([coords[0],(coords[1]+1)%my_board.size])
+                print(self.__get__board_piece_lower_corner_coord())
+        elif wich_direction == Direction.LEFT:
+            print('entro a LEFT')
+            for index,row in enumerate(my_board.board):
+                print(row)
+                my_board.board[index] = row[1:] + row[:1]
+                self.__set__board_piece_lower_corner_coord([coords[0],(coords[1]-1)%my_board.size])
                 print(self.__get__board_piece_lower_corner_coord())
         my_board.get_board()
 
