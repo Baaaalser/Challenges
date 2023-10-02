@@ -39,7 +39,8 @@ class Left_L(Piece):
     def __init__(self,my_board:Board) -> None:
         super().__init__('L_left')
         self.__board_piece_lower_corner_coord = []
-        self.__add_to_board(my_board)
+        self.__board = my_board
+        self.__add_to_board()
 
     def rotate(self):
         tmp_data_0 = self.data[0][0]
@@ -61,39 +62,44 @@ class Left_L(Piece):
         print(self.data)
 
     
-    def move(self,my_board:Board,wich_direction:Direction):
-        print(wich_direction)
-        
+    def move(self,wich_direction:Direction):
         coords = self.__get__board_piece_lower_corner_coord()
-        print(coords)
+        print(f'Al entrar a move = {coords}')
+        if coords[0] == self.__board.size - 1: #bottom reached?
+            return
         if wich_direction == Direction.DOWN:
-            my_board.board = my_board.board[-1:] + my_board.board[:-1]
-            if coords == [0,0]:#if piece is entering the board add the next part of the piece
-                my_board.board[0][0] = self.data[1][0]
-                my_board.board[0][1] = self.data[1][1]
-                my_board.board[0][2] = self.data[1][2]
-                self.__set__board_piece_lower_corner_coord([coords[0]+1,0])
-            elif coords == [1,0]:
-                my_board.board[0][0] = self.data[0][0]
-                my_board.board[0][1] = self.data[0][1]
-                my_board.board[0][2] = self.data[0][2]
-                self.__set__board_piece_lower_corner_coord([coords[0]+1,0])
+            self.__board.board = self.__board.board[-1:] + self.__board.board[:-1]
+            self.__set__board_piece_lower_corner_coord([(coords[0]+1)%self.__board.size,coords[1]])
         elif wich_direction == Direction.RIGHT:
-            print('entro')
-            for index,row in enumerate(my_board.board):
-                print(row)
-                my_board.board[index] = row[-1:] + row[:-1]
-                self.__set__board_piece_lower_corner_coord([coords[0],(coords[1]+1)%my_board.size])
-                print(self.__get__board_piece_lower_corner_coord())
+            for index,row in enumerate(self.__board.board):
+                self.__board.board[index] = row[-1:] + row[:-1]
+                self.__set__board_piece_lower_corner_coord([coords[0],(coords[1]+1)%self.__board.size])
         elif wich_direction == Direction.LEFT:
-            print('entro a LEFT')
-            for index,row in enumerate(my_board.board):
-                print(row)
-                my_board.board[index] = row[1:] + row[:1]
-                self.__set__board_piece_lower_corner_coord([coords[0],(coords[1]-1)%my_board.size])
-                print(self.__get__board_piece_lower_corner_coord())
-        my_board.get_board()
+            for index,row in enumerate(self.__board.board):
+                self.__board.board[index] = row[1:] + row[:1]
+                self.__set__board_piece_lower_corner_coord([coords[0],(coords[1]-1)%self.__board.size])
+        self.update_board()
 
+
+    def update_board(self):
+        coords = self.__get__board_piece_lower_corner_coord()
+        print(f'Al entrar a update = {coords}')
+        if coords == [1,0]:#if piece is entering the board add the next part of the piece
+            self.__board.board[0][0] = self.data[1][0]
+            self.__board.board[0][1] = self.data[1][1]
+            self.__board.board[0][2] = self.data[1][2]
+        elif coords == [2,0]:
+            self.__board.board[0][0] = self.data[0][0]
+            self.__board.board[0][1] = self.data[0][1]
+            self.__board.board[0][2] = self.data[0][2]
+        # else:
+        #     if coords[0] == 9:
+        #         self.__set__board_piece_lower_corner_coord([coords[0]-1,coords[1]])
+        #         coords = self.__get__board_piece_lower_corner_coord()
+        #         print(f'Al salir de ultimo row = {coords}')
+                
+            #self.__board[coords[0]][coords[1]] = 
+        self.__board.get_board()
     #this function can only be able to work if the piece is on the board
     def __set__board_piece_lower_corner_coord(self,coords:[]):
         self.__board_piece_lower_corner_coord = coords
@@ -102,12 +108,12 @@ class Left_L(Piece):
             return self.__board_piece_lower_corner_coord 
     
     #if the piece is created must be added to the board
-    def __add_to_board(self,my_board:Board):
-        my_board.board[0][0] = self.data[2][0]
-        my_board.board[0][1] = self.data[2][1]
-        my_board.board[0][2] = self.data[2][2]
+    def __add_to_board(self):
+        self.__board.board[0][0] = self.data[2][0]
+        self.__board.board[0][1] = self.data[2][1]
+        self.__board.board[0][2] = self.data[2][2]
         self.__set__board_piece_lower_corner_coord([0,0])
-        my_board.get_board()
+        self.__board.get_board()
         
         
     
