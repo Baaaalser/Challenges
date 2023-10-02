@@ -11,11 +11,26 @@ class Direction(Enum):
 
 class Piece(ABC):
     @abstractmethod
-    def __init__(self,name:str) -> None:
+    def __init__(self,name:str,data:[]) -> None:
         self.__set_name(name)
+        self.__data = data
     @abstractmethod
     def rotate(self):
-        pass
+        tmp_data_0 = self.__data[0][0]
+        tmp_data_1 = self.__data[0][1]
+        tmp_data_2 = self.__data[0][2]
+
+        self.__data[0][0] = self.__data[2][0]
+        self.__data[0][1] = self.__data[1][0]
+        self.__data[0][2] = tmp_data_0
+
+        self.__data[1][0] = self.__data[2][1]
+        tmp_data_0 = self.__data[1][2]
+        self.__data[1][2] = tmp_data_1
+
+        self.__data[2][0] = self.__data[2][2]
+        self.__data[2][1] = tmp_data_0
+        self.__data[2][2] = tmp_data_2
 
     @abstractmethod
     def move(self,board_:Board,wich_direction:Direction):
@@ -37,29 +52,14 @@ class Left_L(Piece):
             ['🔳','🔳','🔳']    #2,0 - 2,1 - 2,2        -   2,2 - 1,2 - 0,2     -   0,2 - 0,1 - 0,0     -   0,0 - 1,0 - 2,0                                                                               
         ]
     def __init__(self,my_board:Board) -> None:
-        super().__init__('L_left')
+        super().__init__('L_left',self.data)
         self.__board_piece_lower_corner_coord = []
         self.__board = my_board
         self.__add_to_board()
 
     def rotate(self):
-        tmp_data_0 = self.data[0][0]
-        tmp_data_1 = self.data[0][1]
-        tmp_data_2 = self.data[0][2]
-
-        self.data[0][0] = self.data[2][0]
-        self.data[0][1] = self.data[1][0]
-        self.data[0][2] = tmp_data_0
-
-        self.data[1][0] = self.data[2][1]
-        tmp_data_0 = self.data[1][2]
-        self.data[1][2] = tmp_data_1
-
-        self.data[2][0] = self.data[2][2]
-        self.data[2][1] = tmp_data_0
-        self.data[2][2] = tmp_data_2
-
-        print(self.data)
+        super().rotate()
+        self.update_board()
 
     
     def move(self,wich_direction:Direction):
@@ -84,15 +84,31 @@ class Left_L(Piece):
     def update_board(self):
         coords = self.__get__board_piece_lower_corner_coord()
         print(f'Al entrar a update = {coords}')
-        if coords == [1,0]:#if piece is entering the board add the next part of the piece
-            self.__board.board[0][0] = self.data[1][0]
-            self.__board.board[0][1] = self.data[1][1]
-            self.__board.board[0][2] = self.data[1][2]
-        elif coords == [2,0]:
-            self.__board.board[0][0] = self.data[0][0]
-            self.__board.board[0][1] = self.data[0][1]
-            self.__board.board[0][2] = self.data[0][2]
-        # else:
+        if coords[0] == 1:#if piece is entering the board add the next part of the piece
+            self.__board.board[0][coords[1]] = self.data[1][0]
+            self.__board.board[0][coords[1]+1] = self.data[1][1]
+            self.__board.board[0][coords[1]+2] = self.data[1][2]
+        elif coords[0] == 2:
+            self.__board.board[0][coords[1]] = self.data[0][0]
+            self.__board.board[0][coords[1]+1] = self.data[0][1]
+            self.__board.board[0][coords[1]+2] = self.data[0][2]
+        elif coords[0] == 0:#if piece was rotated before enter the board
+            self.__board.board[0][0] = self.data[2][0]
+            self.__board.board[0][1] = self.data[2][1]
+            self.__board.board[0][2] = self.data[2][2]
+        else:
+            self.__board.board[coords[0]][coords[1]] = self.data[2][0]
+            self.__board.board[coords[0]][coords[1]+1] = self.data[2][1]
+            self.__board.board[coords[0]][coords[1]+2] = self.data[2][2]
+
+            self.__board.board[coords[0]-1][coords[1]] = self.data[1][0]
+            self.__board.board[coords[0]-1][coords[1]+1] = self.data[1][1]
+            self.__board.board[coords[0]-1][coords[1]+2] = self.data[1][2]
+
+            self.__board.board[coords[0]-2][coords[1]] = self.data[0][0]
+            self.__board.board[coords[0]-2][coords[1]+1] = self.data[0][1]
+            self.__board.board[coords[0]-2][coords[1]+2] = self.data[0][2]
+
         #     if coords[0] == 9:
         #         self.__set__board_piece_lower_corner_coord([coords[0]-1,coords[1]])
         #         coords = self.__get__board_piece_lower_corner_coord()
