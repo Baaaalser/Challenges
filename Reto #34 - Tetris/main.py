@@ -23,7 +23,7 @@
 
 #the main idea to solve this is to make a functional game with all the pieces and the posibility to play in real time
 from board import Board
-from pieces import Left_L,Direction
+from pieces import Left_L,Direction,Inverted_T,Right_L
 import time #the board will be updated and move down the actual piece every second
 import keyboard #for key strokes capture
 
@@ -58,3 +58,20 @@ print('')
 L_izq.move(Direction.DOWN)
 print('')
 L_izq.move(Direction.DOWN)
+tablero.get_board()
+
+unaT = Inverted_T(tablero)
+print('')
+tablero.get_board()
+print('')
+unaT.move(Direction.LEFT)
+print('')
+unaT.move(Direction.LEFT)
+print('')
+unaT.move(Direction.LEFT)
+print('')
+unaT.move(Direction.LEFT)
+print('')
+unaT.move(Direction.DOWN)
+print('')
+unaT.move(Direction.DOWN)
