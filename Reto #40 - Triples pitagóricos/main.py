@@ -18,6 +18,9 @@ def pitagorical_triade(number : int):
             print(el)
 
 pitagorical_triade(8)
+print('-------------------------')
 pitagorical_triade(10)
+print('-------------------------')
 pitagorical_triade(15)
-
+print('-------------------------')
+pitagorical_triade(20)
