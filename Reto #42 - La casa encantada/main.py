@@ -34,6 +34,7 @@ class Mansion():
         self.candy = [0,0]
         self.row = 0
         self.col = 0
+        self.__generate_door_candy()
         self.questions = {
             0:{
                 "pregunta":"Es duro y redondo y se mete hasta el fondo. ¿Qué es?",
@@ -79,7 +80,7 @@ class Mansion():
         }
         
         
-    def generate_door_candy(self):
+    def __generate_door_candy(self):
         are_same = True
         self.door[0] = random.randint(0,3)
         if self.door[0]==0 or self.door[0]==3:
@@ -95,6 +96,8 @@ class Mansion():
             if self.door != self.candy:
                 are_same = False
         self.actual_room = self.door
+        return
+    
 class Movement(Enum):
     UP = 1
     DOWN = 2
@@ -105,7 +108,6 @@ class Movement(Enum):
 class play_mansion():
     def __init__(self) -> None:
         self.mansion = Mansion()
-        self.mansion.generate_door_candy()
         self.won = False
         self.ghost = False
         self.start_game()
@@ -127,19 +129,20 @@ class play_mansion():
         return
 
     def get_question(self):
-        if random.randint(1,10) > 1: 
+        if (random.randint(1,10) > 1): 
             return
         else:#%10
-            self.ghost != self.ghost
+            self.ghost = True
             return
     def ask_questions(self,num:int):
         while num > 0:
             question = random.choice(self.mansion.questions)
-            print(question)
             response = 'Nada'
             while response.lower() not in question['respuesta'].lower():
                 response = input(question['pregunta'])
             num -= 1
+        self.ghost = False
+        return
 
     def start_game(self):
         menu = """Ingrese una de las siguientes opciones:
